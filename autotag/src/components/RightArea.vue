@@ -16,7 +16,7 @@
     <div class="content-detail">
       <span class="title"> Size</span>
       <div class="text-content">
-         <div class="list">
+        <div class="list">
           <div>width</div>
           <input :placeholder="detailData.width" />
         </div>
@@ -31,7 +31,26 @@
       <img :src="srcDelete" alt="" @click="deleteModelBtn" />
     </div>
     <div class="content-detail">
-      <span class="titles"> 基本功能已实现，标记点详情数据可添加。。。</span>
+      <span class="title"> 备注</span>
+      <div class="textarea-content">
+        <textarea />
+      </div>
+    </div>
+    <div class="content-detail">
+      <span class="title"> 图片详情</span>
+      <div class="img-content">
+        <el-upload
+          action="https://jsonplaceholder.typicode.com/posts/"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="" />
+        </el-dialog>
+      </div>
     </div>
   </div>
 </template>
@@ -45,6 +64,8 @@ export default {
   data() {
     return {
       srcDelete: initimg,
+      dialogImageUrl: "",
+      dialogVisible: false,
     };
   },
   props: {
@@ -57,13 +78,21 @@ export default {
   },
   watch: {
     detailData(obj) {
-      console.log(obj)
+      console.log(obj);
       obj.isopenDel == true
         ? (this.srcDelete = img)
         : (this.srcDelete = initimg);
     },
   },
   methods: {
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      console.log(file);
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     addModelBtn() {
       eventbus.$emit("addModel");
     },
@@ -77,7 +106,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .right-area {
   padding: 30px 10px 0;
   text-align: left;
@@ -97,7 +126,7 @@ export default {
       font-weight: 300;
       div.list {
         width: 50%;
-        padding-left:5px;
+        padding-left: 5px;
       }
       input {
         width: 80px;
@@ -108,10 +137,41 @@ export default {
         margin: 2px 14px 0 4px;
       }
     }
-    .titles{
+    .titles {
       margin: 0 5px;
       color: #999;
       font-size: 14px;
+    }
+    .el-upload {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      i {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+      }
+    }
+    .el-upload-list {
+      li {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    .img-content {
+      padding: 10px 10px 0;
+    }
+    .textarea-content {
+      padding: 10px 10px 0;
+      textarea {
+        width: 190px;
+        border: 1px solid #bfbfca;
+      }
     }
   }
   .operate-icon {

@@ -22,12 +22,13 @@
           ><a title="放大"> <i class="iconfont icon-fangda"></i></a
         ></span>
       </div>
-      <div class="send-btn-content">
-        <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button>
-      </div>
     </div>
     <div class="right">
       <right-area :detailData="detailData"></right-area>
+      <div class="send-btn-content">
+        <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button>
+        <!-- <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button> -->
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
       sizeScaleVal: null,
       stateTag: 0,
       stateStr: null,
-      detailData: {  },
+      detailData: {},
     };
   },
   created() {
@@ -66,6 +67,7 @@ export default {
       );
     },
     modelTagsDetailData(data) {
+      // 具体发送坐标的数据
       this.tagData = data;
     },
     wheel(event) {
@@ -204,14 +206,16 @@ a {
 }
 
 .right {
-  overflow: hidden;
+  // overflow-y: scroll;
   border-radius: 5px;
   margin-left: 20px;
   width: 240px;
   box-shadow: 0 0 2px #aaa;
   background-color: #fff;
-  // border: 1px solid #f40;
-  height: 60%;
+  height: 90%;
+  button {
+    margin: 10px 0;
+  }
 }
 </style>
 

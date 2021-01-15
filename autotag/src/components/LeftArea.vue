@@ -60,12 +60,12 @@ export default {
   data() {
     return {
       imgW: "260px",
-      backImg: "static/img/11.jpg",
+      backImg: "static/img/test4.jpg",
       nowWidth: null,
       nowHeight: null,
       isActive: -1,
       ul: null,
-      longDottedSizeW: 800,
+      longDottedSizeW: 1300,
       shortDottedSizeW: 200,
       addGraCoordinate: [
         // { top: 0, left: 0, width: 20, height: 20 },
@@ -97,7 +97,7 @@ export default {
         height: 0,
         left: 0,
         top: 0,
-        isopenDel:false
+        isopenDel: false,
       });
     });
 
@@ -127,7 +127,7 @@ export default {
         height: 0,
         left: 0,
         top: 0,
-        isopenDel :false
+        isopenDel: false,
       });
       // contextMenu隐藏
       this.$refs.ul.style.display = "none";
@@ -191,7 +191,6 @@ export default {
       console.log(e);
     },
     mouseDownBtn(e) {
-      console.log(2233332)
       let dom = this.$refs.parentRef;
       // 点击之后记录的值
       let { clientX: x, clientY: y } = e;
@@ -217,8 +216,6 @@ export default {
     },
     judgSize() {},
     resize(newRect) {
-      console.log(333333);
-      // console.log(newRect,index);
       this.newRect = newRect;
       this.$emit("clickDetail", {
         ...newRect,
@@ -268,11 +265,12 @@ export default {
     },
     nowWidth(newVal) {
       let { addGraCoordinate, nowWidth, nowHeight } = this.$data;
+      console.log(nowHeight);
       this.$emit("modelTagsDetailData", {
         addGraCoordinate,
         nowHeight: Number(nowHeight.toFixed(2)),
         nowWidth,
-        imgSrc: "static/img/11.jpg",
+        imgSrc: this.backImg,
       });
     },
   },
