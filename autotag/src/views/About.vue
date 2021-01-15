@@ -26,13 +26,18 @@
     <div class="right">
       <right-area :detailData="detailData"></right-area>
       <div class="send-btn-content">
-        <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button>
+        <el-button type="primary" size="small" @click="sendTagsBtn"
+          >模拟发送到后台标记数据，之后刷新</el-button
+        >
         <!-- <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button> -->
       </div>
     </div>
   </div>
 </template>
-<script lang="ts">
+<script >
+// import t from "wwcattle"
+// console.log(t);
+
 import leftArea from "../components/LeftArea.vue";
 import rightArea from "../components/RightArea.vue";
 
@@ -48,12 +53,19 @@ export default {
     };
   },
   created() {
+
+  },
+  mounted() {
     if (window.addEventListener)
       //FF,火狐浏览器会识别该方法
-      window.addEventListener("DOMMouseScroll", this.wheel, false);
-    window.onmousewheel = this.wheel; //W3C
+      //针对左边盒子上进行监听滚动的事件，因为右边也有一个滚动的区域，不然右边滚动左边也会滚动
+      this.$refs.leftRef.$el.addEventListener(
+        "DOMMouseScroll",
+        this.wheel,
+        false
+      );
+    this.$refs.leftRef.$el.onmousewheel = this.wheel; //W3C
   },
-  mounted() {},
   components: {
     leftArea,
     rightArea,

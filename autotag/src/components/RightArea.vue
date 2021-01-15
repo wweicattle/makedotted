@@ -142,35 +142,63 @@ export default {
       color: #999;
       font-size: 14px;
     }
-    .el-upload {
-      width: 80px;
-      height: 80px;
-      position: relative;
-      i {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        margin: auto;
-      }
-    }
-    .el-upload-list {
-      li {
-        width: 80px;
-        height: 80px;
-      }
-    }
-    .img-content {
-      padding: 10px 10px 0;
-    }
     .textarea-content {
       padding: 10px 10px 0;
       textarea {
         width: 190px;
         border: 1px solid #bfbfca;
+      }
+    }
+    .img-content {
+      overflow: hidden;
+      height: 220px;
+      overflow-y: scroll;
+      padding: 12px;
+      &::-webkit-scrollbar {
+        // 滚动条的背景
+        width: 16px;
+        background: #fff;
+        height: 14px;
+      }
+
+      &::-webkit-scrollbar-track,
+      &::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        width: 20px;
+        border: 5px solid transparent;
+      }
+
+      &::-webkit-scrollbar-track {
+        box-shadow: 1px 1px 5px #fff;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        //滚动条的滑块样式修改
+        width: 20px;
+        min-height: 20px;
+        background-clip: content-box;
+        box-shadow: 0 0 0 5px #999 inset;
+      }
+      .el-upload {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        i {
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          margin: auto;
+        }
+      }
+      .el-upload-list {
+        li {
+          width: 80px;
+          height: 80px;
+        }
       }
     }
   }
