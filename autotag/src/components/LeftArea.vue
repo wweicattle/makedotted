@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      ss:233,
       imgW: "260px",
       backImg: "static/img/test4.jpg",
       nowWidth: null,
@@ -79,7 +80,6 @@ export default {
     // 是否 从 后台 里面传进来已有的图片打点记录,有则初始化数据
     let tagData =
       JSON.parse(window.localStorage.getItem("TAG_DATE_DETAIL")) || {};
-    console.log(tagData);
     if (Object.keys(tagData).length > 0) {
       let { addGraCoordinate, nowWidth, nowHeight, imgSrc } = tagData;
       this.backImg = imgSrc;
@@ -264,6 +264,7 @@ export default {
       });
     },
     nowWidth(newVal) {
+      console.log(333333333);
       let { addGraCoordinate, nowWidth, nowHeight } = this.$data;
       console.log(nowHeight);
       this.$emit("modelTagsDetailData", {
@@ -273,6 +274,8 @@ export default {
         imgSrc: this.backImg,
       });
     },
+  
+      // immediate: true,
   },
 };
 </script>

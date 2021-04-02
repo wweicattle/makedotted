@@ -29,14 +29,11 @@
         <el-button type="primary" size="small" @click="sendTagsBtn"
           >模拟发送到后台标记数据，之后刷新</el-button
         >
-        <!-- <button @click="sendTagsBtn">模拟发送到后台标记数据，之后刷新</button> -->
       </div>
     </div>
   </div>
 </template>
 <script >
-// import t from "wwcattle"
-// console.log(t);
 
 import leftArea from "../components/LeftArea.vue";
 import rightArea from "../components/RightArea.vue";
