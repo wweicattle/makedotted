@@ -56,12 +56,12 @@ export default {
     if (window.addEventListener)
       //FF,火狐浏览器会识别该方法
       //针对左边盒子上进行监听滚动的事件，因为右边也有一个滚动的区域，不然右边滚动左边也会滚动
-      this.$refs.leftRef.$el.addEventListener(
+      this.$refs.leftContain.addEventListener(
         "DOMMouseScroll",
         this.wheel,
         false
       );
-    this.$refs.leftRef.$el.onmousewheel = this.wheel; //W3C
+    this.$refs.leftContain.onmousewheel = this.wheel; //W3C
   },
   components: {
     leftArea,
@@ -83,6 +83,7 @@ export default {
       var delta = 0;
       if (!event) event = window.event;
       if (event.wheelDelta) {
+        console.log(event.wheelDelta)
         //IE、chrome浏览器使用的是wheelDelta，并且值为“正负120”
         delta = event.wheelDelta / 120;
         // if (window.opera) delta = -delta; //因为IE、chrome等向下滚动是负值，FF是正值，为了处理一致性，在此取反处理
@@ -109,7 +110,6 @@ export default {
       this.betterSize(obj);
     },
     initSizeDesign(obj) {
-      console.log(obj);
       let { longModelW, shortModelW, nowWidth, nowHeight } = obj;
       this.val = longModelW - shortModelW;
       this.shortModelW = shortModelW;
@@ -194,6 +194,7 @@ a {
   // border: 1px solid red;
   position: relative;
   .left-expand-content {
+    z-index: 1000;
     position: absolute;
     bottom: 20px;
     right: 10px;

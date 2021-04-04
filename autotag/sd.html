@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>动态添加图形和图片并可以拖拽</title>
+    <meta content="width=device-width;initial-scale=1">
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="d3.min.js"></script> -->
+    <!-- <script src="svg.min.js"></script>
+    <script src="svg.draggable.js"></script> -->
+
+    <style>
+        #drawing {
+            width: 100%;
+            height: 500px;
+            margin: 0;
+        }
+        [id^="Svgjs"] {
+            cursor: move;
+        }
+        #img-btn{
+            background: url("timg.jpg") no-repeat;
+            border: none;
+            background-size: 100% 100%;
+            width: 100px;
+            height: 40px;
+        }
+
+        #rect-btn{
+            background-color:#f57518;
+            width: 100px;
+            height: 100px;
+            border: none;
+        }
+        #Line-btn{
+            background-color:pink;
+            width: 100px;
+            height: 100px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="div1">
+
+</div>
+<!--向svg中添加元素-->
+<svg id="svg_my" style="border:1px solid #000;width:500px;height:500px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+</svg>
+</body>
+<script>
+
+    var Linename =1;
+    var flag = true; //判断一个直线是否完成
+    var startLinex1,startLiney1,startLinex2,startLiney2; //直线起始/点
+    var svgMy = document.getElementById("svg_my")
+
+
+    svgMy.οnmοusedοwn=function(event){
+        startLinex1 = event.offsetX;
+        startLiney1 = event.offsetY;
+        startLinex2 = startLinex1;
+        startLiney2=startLiney1;
+        var e,draw = SVG('svg_my');
+        draw.line(startLinex1,startLiney1, startLinex1, startLiney1).id("Imgline"+Linename).stroke({ width: 1 }).draggable();
+        flag=true;
+
+    }
+
+    svgMy.onmousemove = function (event) {
+        if(flag){
+            startLinex2 = event.offsetX;
+            startLiney2 = event.offsetY;
+            $("#Imgline"+Linename).attr("x2",startLinex2).attr("y2",startLiney2);
+        }
+    }
+
+    svgMy.onmouseup = function (e) {
+        $("#Imgline"+Linename).attr("x2",startLinex2).attr("y2",startLiney2);
+
+        flag=false;
+        Linename++;
+    }
+
+
+
+
+</script>
+</html>
+

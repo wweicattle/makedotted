@@ -13,6 +13,17 @@
       ref="imgRef"
       @load="imgload"
     />
+    <svg  id="svg" :width="imgW" :height="imgH" 
+     @mousedown="mouseDownBtn">
+      <polygon
+        points=" 0,0 200,310 70,250 "
+        style="fill: lime; stroke: purple; stroke-width: 0"
+      />
+       <polygon
+        points=" 100,0 300,410 170,450 "
+        style="fill: lime; stroke: purple; stroke-width: 0"
+      />
+    </svg>
     <template v-for="(val, index) in addGraCoordinate">
       <VueDragResize
         :key="index"
@@ -38,6 +49,7 @@
     <ul class="ul-content" ref="ul">
       <li @click="deleteModelBtn">删除</li>
       <li @click="addModelBtn">标记</li>
+      <li @click="addModelBtns">区域</li>
     </ul>
   </div>
 </template>
@@ -59,14 +71,15 @@ export default {
   },
   data() {
     return {
-      ss:233,
+      ss: 233,
       imgW: "260px",
+      imgH:"400px",
       backImg: "static/img/test4.jpg",
       nowWidth: null,
       nowHeight: null,
       isActive: -1,
       ul: null,
-      longDottedSizeW: 1300,
+      longDottedSizeW: 1200,
       shortDottedSizeW: 200,
       addGraCoordinate: [
         // { top: 0, left: 0, width: 20, height: 20 },
@@ -84,6 +97,7 @@ export default {
       let { addGraCoordinate, nowWidth, nowHeight, imgSrc } = tagData;
       this.backImg = imgSrc;
       this.imgW = nowWidth + "px";
+      this.imgH = nowHeight + "px";
       this.addGraCoordinate = addGraCoordinate;
     }
   },
@@ -116,6 +130,7 @@ export default {
     VueDragResize,
   },
   methods: {
+    addModelBtns() {},
     deleteModelBtn() {
       if (!(this.isActive >= 0)) return;
       // 确定当前有选中dosomething........
@@ -227,6 +242,8 @@ export default {
   watch: {
     // 放大或者缩小
     stateTag(newVal) {
+      // console.log(newVal);
+      // this.$refs.parentRef.style.transform="scale(1.5)"
       let beforeWidth = Number(
         getComputedStyle(this.$refs.parentRef).width.split("p")[0]
       );
@@ -274,8 +291,8 @@ export default {
         imgSrc: this.backImg,
       });
     },
-  
-      // immediate: true,
+
+    // immediate: true,
   },
 };
 </script>
@@ -330,5 +347,24 @@ export default {
   background-repeat: no-repeat;
   position: absolute;
   box-sizing: border-box;
+  svg{
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    // width:100%;
+    // height: 100%;
+    polygon {
+      opacity: .2;
+    }
+
+    #test:hover {
+      opacity: .4;
+
+    }
+    polygon:hover{
+      opacity: .4;
+
+    }
+  }
 }
 </style>

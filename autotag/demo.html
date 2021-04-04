@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* .contain {
+      position: absolute;
+      top: 0;
+    } */
+
+    .div {
+      position: absolute;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    polygon {
+      opacity: .2;
+    }
+
+    #test:hover {
+      opacity: .4;
+
+    }
+    polygon:hover{
+      opacity: .4;
+
+    }
+
+    #as:hover {
+      opacity: .4;
+
+    }
+
+    #click {
+      position: fixed;
+      top: 0;
+      z-index: 10001;
+    }
+  </style>
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <html>
+
+  <body>
+    <button id="click">click</button>
+
+    <img src="./autotag/src/assets/11.jpg" id="div" alt="">
+    <svg height="1250" width="800" id="svg">
+      <text x="350" y="205" fill="#000" font-size="50">I love SVG</text>
+
+      <text id="example">This is an example text.</text>
+      <!-- <polygon id="test" points="20,10 300,210 170,250 500,234 500,100" style="fill:lime;stroke:purple;stroke-width:1">
+
+      </polygon>
+      <polygon id="as" points="520,400 " style="fill:lime;stroke:rgb(128, 73, 0);stroke-width:1" /> -->
+      <!-- <polygon points="420,10 700,510 670,250 500,234 500,400" style="fill:lime;stroke:purple;stroke-width:1" /> -->
+    </svg>
+    <!-- <span class="contain">2333</span> -->
+
+    <script>
+      // test.onclick = function () {
+      //   console.log(222222);
+      //   // test.style.opacity=".2"
+
+
+      // }
+      // // document.documentElement.ondblclick = function () {
+      // //   document.documentElement.onclick = null;
+      // // }
+      // document.documentElement.oncontextmenu = function () {
+      //   return false;
+      // }
+      svg.oncontextmenu=function(){
+        document.documentElement.onclick=null;
+      }
+      // document.documentElement.onclick = function (e) {
+      //   console.log(e.target);
+      //   if (e.target.nodeName != "polygon") {
+      //     console.log(e);
+      //     let x = e.pageX;
+      //     let y = e.pageY;
+      //     console.log(x, y);
+
+      //     console.log(22222);
+     
+      //     // as.setAttribut.points="520,400 800,210 370,450"
+      //     as.setAttribute("points", f + ` ${x},${y}`)
+      //   };
+
+
+      // }
+      // document.documentElement
+      let sum = 0
+      document.documentElement.onclick = function (e) {
+        console.log(222);
+        let x = e.pageX;
+        let y = e.pageY;
+        let f="";
+        // console.log(svgs);
+        // svgs=svgs?svgs:'';
+        // if(!svgs){
+        //   console.log(222);
+        // }else{
+        //    f = svgs.attributes.points.nodeValue;
+        // }
+        if (sum == 0) {
+          // let svgs = document.createElement("polygon");
+          var svgs = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          svgs.id = "sss"
+          //     console.log(x, y);
+
+          //     console.log(22222);
+          //     let f = as.attributes.points.nodeValue;
+          //     // as.setAttribut.points="520,400 800,210 370,450"
+          svgs.setAttribute("points", `${x},${y}`);
+          svgs.style="fill:lime;stroke:rgb(128, 73, 0);stroke-width:0"
+          console.log(svg);
+          svg.appendChild(svgs)
+          sum = ++sum;
+
+        } else {
+          let  f = sss.attributes.points.nodeValue;
+
+          sss.setAttribute("points", f + ` ${x},${y}`)
+        }
+
+        // console.log(svg);
+      }
+      window.onerror=function(e){
+        console.log(e);
+      }
+    </script>
+  </body>
+
+  </html>
+</body>
+
+</html>

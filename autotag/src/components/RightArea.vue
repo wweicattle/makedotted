@@ -152,7 +152,7 @@ export default {
     }
     .img-content {
       overflow: hidden;
-      height: 220px;
+      height: 120px;
       overflow-y: scroll;
       padding: 12px;
       &::-webkit-scrollbar {
