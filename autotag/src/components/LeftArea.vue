@@ -6,6 +6,7 @@
     @click="parengClickBtn"
     :style="{ width: imgW }"
   >
+    <!-- 背景图片 -->
     <img
       :src="backImg"
       alt=""
@@ -13,17 +14,40 @@
       ref="imgRef"
       @load="imgload"
     />
-    <svg  id="svg" :width="imgW" :height="imgH" 
-     @mousedown="mouseDownBtn">
-      <polygon
-        points=" 0,0 200,310 70,250 "
-        style="fill: lime; stroke: purple; stroke-width: 0"
-      />
-       <polygon
+    <!-- 区域容器-->
+    <svg
+      id="svg"
+      ref="svg"
+      :width="nowWidth"
+      :height="nowHeight"
+      @mousedown="mouseDownBtn"
+      @click="svgclick"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+    >
+      <text x="350" y="205" fill="#000" font-size="40px">女装区</text>
+
+      <template v-for="(val, index) in areas">
+        <polygon
+          :key="index"
+          :points="val.points"
+          :style="
+            val.style
+              ? val.style
+              : 'fill: lime; stroke: purple; stroke-width: 1'
+          "
+          @dblclick.stop="polydlBtns"
+          @click.stop="polydlBtn"
+        >
+          <div style="position: absolute; top: 0">lorem</div>
+        </polygon>
+      </template>
+      <!-- <polygon
         points=" 100,0 300,410 170,450 "
         style="fill: lime; stroke: purple; stroke-width: 0"
-      />
+      /> -->
     </svg>
+    <!-- 打点区域 -->
     <template v-for="(val, index) in addGraCoordinate">
       <VueDragResize
         :key="index"
@@ -43,13 +67,21 @@
         :isActive="isActive == index"
       >
         <img src="../assets/dibiao.png" alt="" />
+        <!-- <div style="fontSize:20px">
+          lorem
+        </div> -->
       </VueDragResize>
     </template>
 
+    <!-- 右键组件 -->
     <ul class="ul-content" ref="ul">
-      <li @click="deleteModelBtn">删除</li>
-      <li @click="addModelBtn">标记</li>
-      <li @click="addModelBtns">区域</li>
+      <li>1. 打点</li>
+      <li @click="deleteModelBtn">删除打点</li>
+      <li @click="addModelBtn">标记节点</li>
+      <li>2. 区域</li>
+      <li @click="areaBackBtns">撤销上一步</li>
+      <li @click="addAreaBtns">区域开始</li>
+      <li @click="addAreaSucss">区域完成</li>
     </ul>
   </div>
 </template>
@@ -71,9 +103,12 @@ export default {
   },
   data() {
     return {
-      ss: 233,
+      // 区域容器
+      areas: [],
+      //  sum 0,1,2表区域打点的开始，打点中，打点结束
+      sum: 0,
       imgW: "260px",
-      imgH:"400px",
+      imgH: "400px",
       backImg: "static/img/test4.jpg",
       nowWidth: null,
       nowHeight: null,
@@ -81,16 +116,18 @@ export default {
       ul: null,
       longDottedSizeW: 1200,
       shortDottedSizeW: 200,
+      // 打点容器
       addGraCoordinate: [
         // { top: 0, left: 0, width: 20, height: 20 },
         // { top: 100, left: 130, width: 20, height: 20 },
         // { top: 200, left: 230, width: 20, height: 20 },
         // { top: 300, left: 30, width: 20, height: 20 },
       ],
+      // addAreas: [],
     };
   },
   created() {
-    // 是否 从 后台 里面传进来已有的图片打点记录,有则初始化数据
+    // 是否 从 后台里面传进来已有的图片打点记录,有则初始化数据
     let tagData =
       JSON.parse(window.localStorage.getItem("TAG_DATE_DETAIL")) || {};
     if (Object.keys(tagData).length > 0) {
@@ -115,6 +152,7 @@ export default {
       });
     });
 
+    // 添加打点按钮
     eventbus.$on("addModel", () => {
       this.addGraCoordinate.push({
         left: 200,
@@ -126,11 +164,106 @@ export default {
   },
 
   components: {
-    // ResizeAble,
     VueDragResize,
   },
   methods: {
-    addModelBtns() {},
+    // 双击区域表示持出先选中
+    polydlBtns(){
+       this.areas[this.areas.length - 1].style =
+            "fill:lime;stroke:rgb(128, 73, 0);stroke-width:1";
+            this.dbclick=true;
+    },
+    // 区域单击表示闭环
+    polydlBtn() {
+      // this.setTime = setTimeout((val) => {
+        if(this.sum==-1)return;
+        if (this.sum == 1) {
+          // 区域完成，设置sum=-1表示打点结束
+          this.sum = -1;
+          // 将区域边框去掉
+          this.$refs.ul.style.display = "none";
+          this.areas[this.areas.length - 1].style =
+            "fill:lime;stroke:rgb(128, 73, 0);stroke-width:0";
+        }
+      // }, 200);
+    },
+    // 添加一个区域
+    addPolygonArea(x, y) {
+      if (this.sum == 0) {
+        let obj = {};
+        obj.points = `${x},${y}`;
+        obj.style = "fill:lime;stroke:rgb(128, 73, 0);stroke-width:1";
+        this.areas.push(obj);
+        // 打点中
+        this.sum = 1;
+        //   this.paylon = document.createElementNS(
+        //     "http://www.w3.org/2000/svg",
+        //     "polygon"
+        //   );
+        //   this.paylon.setAttribute("points", `${x},${y}`);
+        //   this.paylon.style = "fill:lime;stroke:rgb(128, 73, 0);stroke-width:1";
+        //   this.$refs.svg.appendChild(this.paylon);
+      } else if (this.sum == 1) {
+        // let f = this.paylon.attributes.points.nodeValue;
+        // this.paylon.setAttribute("points", f + ` ${x},${y}`);
+        this.areas[this.areas.length - 1].points =
+          this.areas[this.areas.length - 1].points + ` ${x},${y}`;
+      }
+    },
+
+    // 点击开始区域
+    addAreaBtns() {
+      if (this.sum == 1) return;
+      // sum 0,1,2表区域打点的开始，打点中，打点结束
+      this.sum = 0;
+      this.addPolygonArea(this.offsetX, this.offsetY);
+      this.$refs.ul.style.display = "none";
+    },
+
+    // 区域过程中
+    svgclick(e) {
+      if (this.sum == 1) {
+        this.addPolygonArea(e.offsetX, e.offsetY);
+      }
+    },
+
+    // 区域撤销上一步
+    areaBackBtns() {
+      if (this.sum != -1) {
+        let f = this.areas[this.areas.length - 1].points;
+        console.log(f.split(" "));
+        let arr = f.split(" ");
+        arr.pop();
+        let str = arr.join(" ");
+        this.areas[this.areas.length - 1].points = str;
+        this.$refs.ul.style.display = "none";
+      }
+    },
+
+    // 点击区域成功！
+    addAreaSucss() {
+      if (this.sum == 1) {
+        // 区域完成，设置sum=-1表示打点结束
+        this.sum = -1;
+        // 将区域边框去掉
+        this.$refs.ul.style.display = "none";
+        this.areas[this.areas.length - 1].style =
+          "fill:lime;stroke:rgb(128, 73, 0);stroke-width:0";
+        // let f = this.paylon.attributes.points.nodeValue;
+        // var arr = f.split(" ");
+        // console.log(arr);
+        // arr = arr.map((val) => {
+        //   var f = val.split(",");
+        //   return [f[0], f[1]];
+        // });
+        // let g = Object.assign(this.paylon);
+        // let obj = new Map();
+        // obj.set(g, arr);
+        // this.addAreas.push(obj);
+      }
+    },
+
+    // 删除打点
     deleteModelBtn() {
       if (!(this.isActive >= 0)) return;
       // 确定当前有选中dosomething........
@@ -147,6 +280,8 @@ export default {
       // contextMenu隐藏
       this.$refs.ul.style.display = "none";
     },
+
+    // 添加打点
     addModelBtn(e) {
       let { offsetX: left, offsetY: top } = e;
       // 添加一个新的打点记录
@@ -163,6 +298,8 @@ export default {
       });
       this.$refs.ul.style.display = "none";
     },
+
+    // 影藏oncontextMenu
     parengClickBtn(e) {
       //  adudge如果点击之外隐藏标记与删除盒子contextMenu
       if (e.target.tagName != "LI") {
@@ -181,6 +318,7 @@ export default {
         nowHeight: this.nowHeight,
       });
     },
+    // 右键菜单组件
     contextMenuBtn(e) {
       this.$refs.ul.style.display = "block";
       e.preventDefault();
@@ -190,6 +328,7 @@ export default {
       this.offsetX = offsetX;
       this.offsetY = offsetY;
     },
+
     ondreopStop(indexs) {
       this.addGraCoordinate.forEach((val, index) => {
         if (indexs == index) {
@@ -269,13 +408,27 @@ export default {
         nowHeight: this.nowHeight,
       });
       this.$nextTick(() => {
+        console.log(3333333, this.addGraCoordinate);
         // 对里面的坐标进行等比例大小变化
         if (this.addGraCoordinate.length) {
           this.addGraCoordinate.forEach((val) => {
             let { left, top } = val;
             val.left = (left * nowWidth) / beforeWidth;
             val.top = (top * nowHeight) / beforeHeihgt;
-            // console.log(val);
+          });
+        }
+        // 对里面的区域等比例放大或缩小
+        if (this.areas.length) {
+          this.areas.forEach((val) => {
+            let arr = val.points.split(" ");
+            val.points = arr
+              .map((val) => {
+                let str = val.split(",");
+                var left = ((str[0] * nowWidth) / beforeWidth).toFixed(2);
+                var top = ((str[1] * nowHeight) / beforeHeihgt).toFixed(2);
+                return `${left},${top}`;
+              })
+              .join(" ");
           });
         }
       });
@@ -298,6 +451,13 @@ export default {
 </script>
 
 <style  lang="scss">
+// .area-begin{
+//   position: absolute;
+//   z-index: 1002;
+//   left: 0;
+//   top: 0;
+//   v-show
+// }
 .ul-content {
   display: none;
   user-select: none;
@@ -307,7 +467,7 @@ export default {
   border-right-color: #5062c2;
   border-bottom-color: #5062c2;
   border-radius: 3px;
-  z-index: 1;
+  z-index: 101;
   background: linear-gradient(145deg, #ffffff, #adadb1);
   position: fixed;
   margin: 0;
@@ -333,9 +493,13 @@ export default {
   overflow: hidden;
   border: 1px solid rgb(119, 119, 118);
   font-size: 0;
-  .vdr.active:before {
-    border: 1px dotted #000;
+  .vdr {
+    z-index: 1001 !important;
+    &.active:before {
+      border: 1px dotted #000;
+    }
   }
+
   img {
     width: 100%;
     display: block;
@@ -347,23 +511,21 @@ export default {
   background-repeat: no-repeat;
   position: absolute;
   box-sizing: border-box;
-  svg{
+  svg {
     position: absolute;
     top: 0;
     z-index: 100;
     // width:100%;
     // height: 100%;
     polygon {
-      opacity: .2;
+      opacity: 0.2;
     }
 
     #test:hover {
-      opacity: .4;
-
+      opacity: 0.4;
     }
-    polygon:hover{
-      opacity: .4;
-
+    polygon:hover {
+      opacity: 0.4;
     }
   }
 }

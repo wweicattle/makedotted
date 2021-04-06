@@ -11,6 +11,7 @@
       position: absolute;
       top: 0;
       left: 0;
+      border: 1px solid red;
     }
 
     /* .contain {
@@ -33,7 +34,8 @@
       opacity: .4;
 
     }
-    polygon:hover{
+
+    polygon:hover {
       opacity: .4;
 
     }
@@ -48,26 +50,38 @@
       top: 0;
       z-index: 10001;
     }
+
+    #sa {
+      position: relative;
+
+    }
+
+    .sss {}
   </style>
 </head>
 
 <body>
-  <!DOCTYPE html>
   <html>
 
   <body>
-    <button id="click">click</button>
+    <!-- <button id="click">click</button> -->
 
     <img src="./autotag/src/assets/11.jpg" id="div" alt="">
-    <svg height="1250" width="800" id="svg">
-      <text x="350" y="205" fill="#000" font-size="50">I love SVG</text>
-
-      <text id="example">This is an example text.</text>
+    <svg height="550" width="800" id="svg">
+      <!-- <text id="example">This is an example text.</text> -->
       <!-- <polygon id="test" points="20,10 300,210 170,250 500,234 500,100" style="fill:lime;stroke:purple;stroke-width:1">
 
       </polygon>
       <polygon id="as" points="520,400 " style="fill:lime;stroke:rgb(128, 73, 0);stroke-width:1" /> -->
-      <!-- <polygon points="420,10 700,510 670,250 500,234 500,400" style="fill:lime;stroke:purple;stroke-width:1" /> -->
+      <g>
+        <text x="430" y="100" fill="#000" font-size="50">I love SVG</text>
+        <polygon id="sa" points="420,10 700,510 670,250 500,234 500,400" style="fill:lime;stroke:purple;stroke-width:1">
+          <text x="100" y="205" fill="#000" font-size="50">I love SVG</text>
+        </polygon>
+      </g>
+
+
+
     </svg>
     <!-- <span class="contain">2333</span> -->
 
@@ -84,8 +98,8 @@
       // document.documentElement.oncontextmenu = function () {
       //   return false;
       // }
-      svg.oncontextmenu=function(){
-        document.documentElement.onclick=null;
+      svg.oncontextmenu = function () {
+        document.documentElement.onclick = null;
       }
       // document.documentElement.onclick = function (e) {
       //   console.log(e.target);
@@ -96,7 +110,7 @@
       //     console.log(x, y);
 
       //     console.log(22222);
-     
+
       //     // as.setAttribut.points="520,400 800,210 370,450"
       //     as.setAttribute("points", f + ` ${x},${y}`)
       //   };
@@ -109,7 +123,7 @@
         console.log(222);
         let x = e.pageX;
         let y = e.pageY;
-        let f="";
+        let f = "";
         // console.log(svgs);
         // svgs=svgs?svgs:'';
         // if(!svgs){
@@ -127,20 +141,20 @@
           //     let f = as.attributes.points.nodeValue;
           //     // as.setAttribut.points="520,400 800,210 370,450"
           svgs.setAttribute("points", `${x},${y}`);
-          svgs.style="fill:lime;stroke:rgb(128, 73, 0);stroke-width:0"
+          svgs.style = "fill:lime;stroke:rgb(128, 73, 0);stroke-width:0"
           console.log(svg);
           svg.appendChild(svgs)
           sum = ++sum;
 
         } else {
-          let  f = sss.attributes.points.nodeValue;
+          let f = sss.attributes.points.nodeValue;
 
           sss.setAttribute("points", f + ` ${x},${y}`)
         }
 
         // console.log(svg);
       }
-      window.onerror=function(e){
+      window.onerror = function (e) {
         console.log(e);
       }
     </script>
